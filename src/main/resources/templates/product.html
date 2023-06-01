@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин одежды</title>
+    <link rel="stylesheet" th:href="@{/styles/product.css}">
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="logo">Логотип</div>
+            <div class="search">
+                <input type="text" placeholder="Поиск" />
+                <div>Найти</div>
+            </div>
+            <div class="header-right">
+                <div class="icons">
+                    <img th:src="@{/images/love.png}" />
+                    <a th:href="@{/bag}"><img th:src="@{/images/bag.png}" /></a>
+                </div>
+                <div th:if="${isAuth == true}" class="profile">
+                    <img th:src="@{/images/login.png}" alt="">
+                    <div class="profile-menu">
+                        <a th:href="@{/personalAccount}">Личный кабинет</a>
+                        <form method="POST" th:action="@{/logout}"><button>Выйти</button></form>
+                    </div>
+                </div>
+                <div th:unless="${isAuth == true}" class="profile">
+                    <a th:href="@{/login}">Войти</a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <div class="categories">Все категории</div>
+            <div class="nav-list">
+                <a href="#" class="nav-item">Блузки</a>
+                <a href="#" class="nav-item">Брюки</a>
+                <a href="#" class="nav-item">Жакеты</a>
+                <a href="#" class="nav-item">Пиджаки</a>
+                <a href="#" class="nav-item">Платья</a>
+                <a href="#" class="nav-item">Юбки</a>
+            </div>
+        </div>
+        <div class="main">
+            <div class="product_info">
+                <div class="short_info">
+                    <div class="product-img">
+                        <img th:src="'/images/' + ${curColor.image}" alt="">
+                    </div>
+                    <div class="info">
+                        <div th:text="${product.info.title}" class="product-name">Товар №1</div>
+                        <div th:text="${curColor.price}" class="price">2500 руб</div>
+                        <div class="color">
+                            <label for="colors"></label>
+                            <select name="colors" id="colors" onchange="changeColor(this)">
+                                <option th:each="c : ${productColors}" th:value="${c.color}" th:text="${c.color}" th:selected="${c.color == curColor.color}">a</option>
+                            </select>
+                        </div>
+                        <div class="size">
+                            <label for="sizes"></label>
+                            <select name="sizes" id="sizes" onchange="changeSize(this)">
+                                <option th:each="s : ${productSizes}" th:value="${s.size}" th:text="${s.size}" th:selected="${s.size == curSize.size}">a</option>
+                            </select>
+                        </div>
+                        <div class="btns">
+                            <div th:if="${curSize.countInBag} == 0">
+                                <div th:if="${curSize.count} > 0">
+                                    <form method="POST" th:action="@{/increase}">
+                                        <input name="id" type="hidden" th:value="${curSize.id}">
+                                        <button class="bag-btn minimal">Добавить в корзину</button>
+                                    </form>
+                                </div>
+                                <div th:unless="${curSize.count} > 0">
+                                    <h3>Нет в наличии</h3>
+                                </div>
+                            </div>
+                            <div th:if="${curSize.countInBag} > 0" class="bag-item-control">
+                                <div>
+                                    <form method="POST" th:action="@{/decrease}">
+                                        <input name="id" type="hidden" th:value="${curSize.id}">
+                                        <button class="bag-btn">-</button>
+                                    </form>
+                                </div>
+                                <div th:text="${curSize.countInBag}" class="bag-product-count">10</div>
+                                <div th:if="${curSize.countInBag} < ${curSize.count}">
+                                    <form method="POST" th:action="@{/increase}">
+                                        <input name="id" type="hidden" th:value="${curSize.id}">
+                                        <button class="bag-btn">+</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div>
+                                <form method="POST" th:action="!${curColor.isLiked} ? @{/addToFavourite}: @{/removeFavourite}">
+                                    <input name="id" type="hidden" th:value="${curColor.id}">
+                                    <button class="like-btn active" th:if="${curColor.isLiked}"></button>
+                                    <button class="like-btn" th:unless="${curColor.isLiked}"></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main_info">
+                    <div class="description">
+                        <div>Описание</div>
+                        <div th:text="${product.info.description}" class="product-description">Описание товара</div>
+                    </div>
+                    <div class="characteristics">
+                        <div>Характеристики</div>
+                        <div th:text="${product.info.vendorCode}" class="product-vendorCode">Артикул</div>
+                        <div th:text="${product.info.manufacturer}" class="product-manufacturer">Производитель</div>
+                        <div th:text="${product.info.type}" class="product-type">Тип товара</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-top">
+                <div class="footer_info">
+                    <div class="footer_logo">Логотип</div>
+                    <div class="footer_text">Текст</div>
+                </div>
+                <div class="footer_links">
+                    <div class="footer_links1">Ссылки1</div>
+                    <div class="footer_links2">Ссылки2</div>
+                    <div class="footer_links3">Ссылки3</div>
+                    <div class="footer_contacts">Ссылки4</div>
+                </div>
+            </div>
+            <div class="footer_copyright">Копирайт</div>
+        </div>
+    </div>
+    <script th:src="@{/scripts/product.js}"></script>
+</body>
+</html>

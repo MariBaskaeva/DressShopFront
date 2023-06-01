@@ -1,0 +1,17 @@
+.short_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 100px;
+}
+
+.main_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main {
+    justify-content: center;
+    align-items: center;
+}
+

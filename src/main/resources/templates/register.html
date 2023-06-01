@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин одежды</title>
+    <link rel="stylesheet" th:href="@{/styles/register.css}">
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="logo">Логотип</div>
+            <div class="search">
+                <input type="text" placeholder="Поиск" />
+                <div>Найти</div>
+            </div>
+            <div class="header-right">
+                <div class="icons">
+                    <img th:src="@{/images/love.png}" />
+                    <img th:src="@{/images/bag.png}" />
+                </div>
+                <div class="profile">
+                    <img th:src="@{/images/login.png}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <div class="categories">Все категории</div>
+            <div class="nav-list">
+                <a href="#" class="nav-item">Блузки</a>
+                <a href="#" class="nav-item">Брюки</a>
+                <a href="#" class="nav-item">Жакеты</a>
+                <a href="#" class="nav-item">Пиджаки</a>
+                <a href="#" class="nav-item">Платья</a>
+                <a href="#" class="nav-item">Юбки</a>
+            </div>
+        </div>
+        <div class="main">
+            <div class="path">Путь к карточке</div>
+            <div class="register_account">
+                <form method="POST" th:action="@{/register}" id="registerForm">
+                    <div class="register_data">
+                        <div class="email">
+                            <label for="email">Электронная почта: </label>
+                            <input type="text" name="email"/><br/>
+                        </div>
+                        <div class="surname">
+                            <label for="surname">Фамилия: </label>
+                            <input type="text" name="surname"/><br/>
+                        </div>
+                        <div class="name">
+                            <label for="name">Имя: </label>
+                            <input type="text" name="name"/><br/>
+                        </div>
+                        <div class="phone_number">
+                            <label for="phoneNumber">Номер телефона: </label>
+                            <input type="text" name="phoneNumber"/><br/>
+                        </div>
+                        <div class="telegram">
+                            <label for="telegram">Телеграм: </label>
+                            <input type="text" name="telegram"/><br/>
+                        </div>
+                        <div class="password">
+                            <label for="password">Пароль: </label>
+                            <input type="text" name="password"/><br/>
+                        </div>
+                        <div class="password_again">
+                            <label for="passwordAgain">Повторите пароль: </label>
+                            <input type="text" name="passwordAgain"/><br/>
+                        </div>
+                    </div>
+                    <input type="submit" value="Зарегистрироваться"/><br/>
+                </form>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-top">
+                <div class="footer_info">
+                    <div class="footer_logo">Логотип</div>
+                    <div class="footer_text">Текст</div>
+                </div>
+                <div class="footer_links">
+                    <div class="footer_links1">Ссылки1</div>
+                    <div class="footer_links2">Ссылки2</div>
+                    <div class="footer_links3">Ссылки3</div>
+                    <div class="footer_contacts">Ссылки4</div>
+                </div>
+            </div>
+            <div class="footer_copyright">Копирайт</div>
+        </div>
+    </div>
+</body>
+</html>

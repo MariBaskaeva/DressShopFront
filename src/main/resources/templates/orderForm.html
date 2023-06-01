@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин одежды</title>
+    <link rel="stylesheet" th:href="@{/styles/bag.css}">
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <div class="logo">Логотип</div>
+        <div class="search">
+            <input type="text" placeholder="Поиск" />
+            <div>Найти</div>
+        </div>
+        <div class="header-right">
+            <div class="icons">
+                <img th:src="@{/images/love.png}" />
+                <a th:href="@{/bag}"><img th:src="@{/images/bag.png}" /></a>
+            </div>
+            <div th:if="${isAuth == true}" class="profile">
+                <img th:src="@{/images/login.png}" alt="">
+                <div class="profile-menu">
+                    <a th:href="@{/personalAccount}">Личный кабинет</a>
+                    <form method="POST" th:action="@{/logout}"><button>Выйти</button></form>
+                </div>
+            </div>
+            <div th:unless="${isAuth == true}" class="profile">
+                <a th:href="@{/login}">Войти</a>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <div class="categories">Все категории</div>
+        <div class="nav-list">
+            <a href="#" class="nav-item">Блузки</a>
+            <a href="#" class="nav-item">Брюки</a>
+            <a href="#" class="nav-item">Жакеты</a>
+            <a href="#" class="nav-item">Пиджаки</a>
+            <a href="#" class="nav-item">Платья</a>
+            <a href="#" class="nav-item">Юбки</a>
+        </div>
+    </div>
+    <div class="main">
+        <div class="order_data">
+            <div class="address">
+                <label for="address">Адрес доставки: </label>
+                <input type="text" name="address"/><br/>
+            </div>
+
+        </div>
+    </div>
+    <div class="footer">
+        <!--            <div class="footer-top">-->
+        <!--                <div class="footer_info">-->
+        <!--                    <div class="footer_logo">Логотип</div>-->
+        <!--                    <div class="footer_text">Текст</div>-->
+        <!--                </div>-->
+        <!--                <div class="footer_links">-->
+        <!--                    <div class="footer_links1">Ссылки1</div>-->
+        <!--                    <div class="footer_links2">Ссылки2</div>-->
+        <!--                    <div class="footer_links3">Ссылки3</div>-->
+        <!--                    <div class="footer_contacts">Ссылки4</div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <div class="footer_copyright">Копирайт</div>
+    </div>
+</div>
+</body>
+</html>

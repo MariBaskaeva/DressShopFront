@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин одежды</title>
+    <link rel="stylesheet" th:href="@{/styles/bag.css}">
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="logo">Логотип</div>
+            <div class="search">
+                <input type="text" placeholder="Поиск" />
+                <div>Найти</div>
+            </div>
+            <div class="header-right">
+                <div class="icons">
+                    <img th:src="@{/images/love.png}" />
+                    <a th:href="@{/bag}"><img th:src="@{/images/bag.png}" /></a>
+                </div>
+                <div th:if="${isAuth == true}" class="profile">
+                    <img th:src="@{/images/login.png}" alt="">
+                    <div class="profile-menu">
+                        <a th:href="@{/personalAccount}">Личный кабинет</a>
+                        <form method="POST" th:action="@{/logout}"><button>Выйти</button></form>
+                    </div>
+                </div>
+                <div th:unless="${isAuth == true}" class="profile">
+                    <a th:href="@{/login}">Войти</a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <div class="categories">Все категории</div>
+            <div class="nav-list">
+                <a href="#" class="nav-item">Блузки</a>
+                <a href="#" class="nav-item">Брюки</a>
+                <a href="#" class="nav-item">Жакеты</a>
+                <a href="#" class="nav-item">Пиджаки</a>
+                <a href="#" class="nav-item">Платья</a>
+                <a href="#" class="nav-item">Юбки</a>
+            </div>
+        </div>
+        <div class="main">
+            <div class="bag">
+                <div class="bag-goods">
+                    <div class="goods_heading">
+                        Товары в корзине
+                    </div>
+                    <div class="bag-items">
+                        <div th:each="product : ${products}" class="bag-item">
+                            <div class="bag-item-img">
+                                <img th:src="'/images/' + ${product.image}" alt="">
+                            </div>
+                            <div class="bag-item-info">
+                                <div th:text="${product.title}" class="bag-product-name">Товар №1</div>
+                                <div th:text="${product.color}" class="bag-product-color">Розовый</div>
+                                <div th:text="${product.size}" class="bag-product-color">S</div>
+                            </div>
+                            <div class="bag-item-right">
+                                <div th:text="${product.price}" class="bag-price">2500 руб</div>
+                                <div class="bag-item-control">
+                                    <div>
+                                        <form method="POST" th:action="@{/decreaseCount}">
+                                            <input name="id" type="hidden" th:value="${product.productId}">
+                                            <button class="bag-btn">-</button>
+                                        </form>
+                                    </div>
+                                    <div th:text="${product.countInBag}" class="bag-product-count">10</div>
+                                    <div th:if="${product.countInBag} < ${product.count}">
+                                        <form method="POST" th:action="@{/increaseCount}">
+                                            <input name="id" type="hidden" th:value="${product.productId}">
+                                            <button class="bag-btn">+</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary">
+                    <div class="total_txt">Итог</div>
+                    <div class="calculations">
+                        <div class="count_calc">
+                            <div>Количество: </div>
+                            <div class="quantity" th:text="${total.totalCount}"></div>
+                        </div>
+                        <div class="quantity_calc">
+                            <div>Стоимость: </div>
+                            <div class="products_cost" th:text="${total.totalPrice} + 'р'"></div>
+                        </div>
+                        <div class="delivery_calc">
+                            <div class="delivery">Доставка: </div>
+                            <div class="delivery_cost" th:text="${total.deliveryCost} + 'р'">Цена</div>
+                        </div>
+                        <div class="total_calc">
+                            <div class="total">Итого: </div>
+                            <div class="total_cost" th:text="${total.totalCost} + 'р'">Сумма</div>
+                        </div>
+                        <div class="order_products">
+                            <form method="POST" th:action="@{/payment}">
+                                <label for="deliveryAddress">Адрес доставки</label>
+                                <input type="text" name="deliveryAddress" id="deliveryAddress">
+                                <button class="order_btn">Оформить заказ</button>
+                            </form>
+                        </div>
+                        <div class="clear">
+                            <form method="POST" th:action="@{/clearBag}">
+                                <button class="clear_bag">Очистить корзину</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+<!--            <div class="footer-top">-->
+<!--                <div class="footer_info">-->
+<!--                    <div class="footer_logo">Логотип</div>-->
+<!--                    <div class="footer_text">Текст</div>-->
+<!--                </div>-->
+<!--                <div class="footer_links">-->
+<!--                    <div class="footer_links1">Ссылки1</div>-->
+<!--                    <div class="footer_links2">Ссылки2</div>-->
+<!--                    <div class="footer_links3">Ссылки3</div>-->
+<!--                    <div class="footer_contacts">Ссылки4</div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="footer_copyright">Копирайт</div>
+        </div>
+    </div>
+</body>
+</html>

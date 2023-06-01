@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин одежды</title>
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+</head>
+<body>
+    <div class="content">
+        <div class="nav-bar">
+            <div class="nav-list">
+                <a th:href="@{/}" class="nav-item">Все категории</a>
+                <a th:href="@{/(types=BLOUSE)}" class="nav-item">Блузки</a>
+                <a th:href="@{/(types=TROUSERS)}" class="nav-item">Брюки</a>
+                <a th:href="@{/(types=JACKET)}" class="nav-item">Жакеты</a>
+                <a th:href="@{/(types=COAT)}" class="nav-item">Пиджаки</a>
+                <a th:href="@{/(types=DRESS)}" class="nav-item">Платья</a>
+                <a th:href="@{/(types=SKIRT)}" class="nav-item">Юбки</a>
+            </div>
+            <div class="header-right">
+                <div class="icons">
+                    <a th:href="@{/favourite}"><img th:src="@{/images/love.png}" /></a>
+                    <a th:href="@{/bag}"><img th:src="@{/images/bag.png}" /></a>
+                </div>
+                <div th:if="${isAuth == true}" class="profile">
+                    <img th:src="@{/images/login.png}" alt="">
+                    <div class="profile-menu">
+                        <a th:href="@{/personalAccount}">Личный кабинет</a>
+                        <form method="POST" th:action="@{/logout}"><button>Выйти</button></form>
+                    </div>
+                </div>
+                <div th:unless="${isAuth == true}" class="profile">
+                    <a th:href="@{/login}">Войти</a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="filters">
+                <form method="GET" th:action="@{/}">
+                    <div>Размеры: </div>
+                    <div class="sizes">
+                        <div>
+                            <input type="checkbox" name="sizes" value="XS" id="XS" >
+                            <label for="XS">XS</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="sizes" value="S" id="S">
+                            <label for="S">S</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="sizes" value="M" id="M">
+                            <label for="M">M</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="sizes" value="L" id="L">
+                            <label for="L">L</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="sizes" value="XL" id="XL">
+                            <label for="XL">XL</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="sizes" value="XXL" id="XXL">
+                            <label for="XXL">XXL</label>
+                        </div>
+                    </div>
+                    <div>Цвета:</div>
+                    <div class="colors">
+                        <div>
+                            <input type="checkbox" name="colors" value="белый" id="white" >
+                            <label for="white">Белый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="черный" id="black">
+                            <label for="black">Черный</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="красный" id="red">
+                            <label for="red">Красный</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="бежевый" id="beige">
+                            <label for="beige">Бежевый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="зеленый" id="green">
+                            <label for="green">Зеленый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="синий" id="blue">
+                            <label for="blue">Синий</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="розовый" id="pink">
+                            <label for="pink">Розовый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="оранжевый" id="orange">
+                            <label for="orange">Оранжевый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="желтый" id="yellow">
+                            <label for="yellow">Желтый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="голубой" id="light-blue">
+                            <label for="light-blue">Голубой</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="фиолетовый" id="purple">
+                            <label for="purple">Фиолетовый</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="colors" value="мультиколор" id="multicolor">
+                            <label for="multicolor">Мультиколор</label>
+                        </div>
+                    </div>
+                    <div>Цена: </div>
+                    <div class="prices">
+                        <label for="priceFrom">от</label>
+                        <input type="text" name="priceFrom" id="priceFrom">
+                        <label for="priceTo">до</label>
+                        <input type="text" name="priceTo" id="priceTo">
+                    </div>
+                    <div class="filter_btns">
+                        <div class="show_btn">
+                            <button type="submit">Показать</button>
+                        </div>
+                        <div class="skip_btn">
+                            <button type="reset">Сбросить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="goods">
+                <div class="goods_heading" th:text="${type}">
+                    Все товары
+                </div>
+                <div class="goods_items">
+                    <div th:each="product : ${products}" class="product">
+                        <a th:href="@{/product/{id}(id = ${product.id})}">
+                            <div class="product-img">
+                                <img th:src="'/images/' + ${product.colors[0].image}" alt="">
+                            </div>
+                            <div th:text="${product.info.title}" class="product-name">Товар №1</div>
+                            <div class="product-color">
+                                <div>Цвет: </div>
+                                <div th:text="${product.colors[0].color}">Цвет</div>
+                            </div>
+                            <div class="product-sizes">
+                                <div>Размеры: </div>
+                                <div th:each="size : ${product.colors[0].sizes}">
+                                    <div th:text="${size.size}">Размер</div>
+                                </div>
+                            </div>
+                            <div class="product-price">
+                                <div>
+                                    <div>Цена: </div>
+                                    <div th:text="${product.colors[0].price}" class="price">2500 руб</div>
+                                </div>
+                                <div th:if="${isAuth}">
+                                    <form method="POST" th:action="!${product.colors[0].isLiked} ? @{/addToFavourite}: @{/removeFavourite}">
+                                        <input name="id" type="hidden" th:value="${product.colors[0].id}">
+                                        <button class="like-btn active" th:if="${product.colors[0].isLiked}"></button>
+                                        <button class="like-btn" th:unless="${product.colors[0].isLiked}"></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="pagination">
+                    <div th:if="${!isFirst}">
+                        <a th:href="@{/(page=1)}" class="first-page"><<</a>
+                    </div>
+                    <div th:if="${!isFirst}">
+                        <a th:href="@{/(page=${currentPage}-1)}" class="prev-page"><</a>
+                    </div>
+                    <div th:each="page : ${pageAfter}">
+                        <a th:href="@{/(page=${page})}" class="page" th:text="${page}">page</a>
+                    </div>
+                    <div>
+                        <a class="page" th:text="${currentPage}">current</a>
+                    </div>
+                    <div th:each="page : ${pageBefore}">
+                         <a th:href="@{/(page=${page})}" class="page" th:text="${page}">page</a>
+                    </div>
+                    <div th:if="${!isLast}">
+                         <a href="#" class="next-page">></a>
+                    </div>
+                    <div th:if="${!isLast}">
+                          <a href="#" class="last-page">>></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer_copyright">© 2023 DressShop</div>
+        </div>
+    </div>
+</body>
+</html>

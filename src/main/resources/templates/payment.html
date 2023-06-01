@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин одежды</title>
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+    <link rel="stylesheet" th:href="@{/styles/payment.css}">
+</head>
+<body>
+<div class="content">
+    <div class="nav-bar">
+        <div class="nav-list">
+            <a th:href="@{/}" class="nav-item">Все категории</a>
+            <a th:href="@{/(types=BLOUSE)}" class="nav-item">Блузки</a>
+            <a th:href="@{/(types=TROUSERS)}" class="nav-item">Брюки</a>
+            <a th:href="@{/(types=JACKET)}" class="nav-item">Жакеты</a>
+            <a th:href="@{/(types=COAT)}" class="nav-item">Пиджаки</a>
+            <a th:href="@{/(types=DRESS)}" class="nav-item">Платья</a>
+            <a th:href="@{/(types=SKIRT)}" class="nav-item">Юбки</a>
+        </div>
+        <div class="header-right">
+            <div class="icons">
+                <a th:href="@{/favourite}"><img th:src="@{/images/love.png}" /></a>
+                <a th:href="@{/bag}"><img th:src="@{/images/bag.png}" /></a>
+            </div>
+            <div th:if="${isAuth == true}" class="profile">
+                <img th:src="@{/images/login.png}" alt="">
+                <div class="profile-menu">
+                    <a th:href="@{/personalAccount}">Личный кабинет</a>
+                    <form method="POST" th:action="@{/logout}"><button>Выйти</button></form>
+                </div>
+            </div>
+            <div th:unless="${isAuth == true}" class="profile">
+                <a th:href="@{/login}">Войти</a>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <form method="POST" th:action="@{/pay}">
+        <div class="card">
+            <label for="cardNumber">Номер карты: </label>
+            <input type="text" name="cardNumber"/><br/>
+            <label for="cardDate">Дата выдачи: </label>
+            <input type="text" name="cardDate"/><br/>
+            <label for="cardCode">CVV: </label>
+            <input type="text" name="cardCode"/><br/>
+            <input type="hidden" name="orderId" th:value="${orderId}"/><br/>
+        </div>
+        <div class="pay">
+                <button class="pay_btn">Оплатить</button>
+        </div>
+        </form>
+    </div>
+    <div class="footer">
+        <div class="footer_copyright">© 2023 DressShop</div>
+    </div>
+</div>
+</body>
+</html>
